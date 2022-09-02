@@ -17,3 +17,5 @@ async function getTimeTable(from, thru) {
     console.log(counts)*/
     return tund
 }
+
+module.exports.getTimeTable = getTimeTable()
