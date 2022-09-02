@@ -1,12 +1,13 @@
 const { MessageEmbed, Collection } = require("discord.js");
-const client = require("..");
-const prefix = "tptlive";
+const client = require("../bot.js");
+const prefix = "!";
 
 client.on("messageCreate", async (message) => {
   if (!message.guild) return;
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
   let command = message.content.split(" ")[0].slice(prefix.length);
+  console.log(command)
   let params = message.content.split(" ").slice(1);
   let cmd;
   if (client.commands.has(command)) {

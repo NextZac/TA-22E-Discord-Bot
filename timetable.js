@@ -18,4 +18,4 @@ async function getTimeTable(from, thru) {
     return tund
 }
 
-module.exports.getTimeTable = getTimeTable()
+module.exports.getTimeTable = getTimeTable;
