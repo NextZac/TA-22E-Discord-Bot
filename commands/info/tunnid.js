@@ -29,6 +29,9 @@ module.exports = {
         for(i in todaylessons) {
             lessonembed.addFields({name: todaylessons[i]['nameEt'], value: todaylessons[i]['timeStart'] +"-"+todaylessons[i]['timeEnd'] + " - " + todaylessons[i]['rooms'][0]['roomCode'], inline:false})
         }
+        if(todaylessons.length === 0) {
+            lessonembed.setDescription("Täna ei toimu tunde.")
+        }
         await msg.delete()
         await message.reply({embeds: [lessonembed]})
 	}

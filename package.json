@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "@discordjs/rest": "^1.1.0",
+    "@napi-rs/canvas": "^0.1.29",
     "ascii-table": "^0.0.9",
     "axios": "^0.27.2",
+    "canvas-table": "^0.3.0",
     "chalk": "^2.4.1",
     "discord-api-types": "^0.37.5",
     "discord.js": "^14.3.0",

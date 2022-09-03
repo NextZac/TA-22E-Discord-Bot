@@ -13,4 +13,18 @@ async function getTimeTable(from, thru) {
     return tund
 }
 
+async function getLessonsToday() {
+    s = moment().startOf('isoWeek').format('yyyy-MM-DDT00:00:00') + "Z".toString()
+    e = moment().endOf('isoWeek').format('yyyy-MM-DDT00:00:00') + "Z".toString()
+    n = moment().format('yyyy-MM-DDT00:00:00') + "Z".toString()
+    const lessons = await getTimeTable(s,e)
+    const todaylessons = [];
+    for (i in lessons) {
+        if(lessons[i]['date'].toString() != n)
+         {continue;}
+         todaylessons.push(lessons[i])
+     }
+     return todaylessons;
+}
+
 module.exports.getTimeTable = getTimeTable;
