@@ -4,7 +4,6 @@ var moment = require('moment');
 const { now } = require('moment');
 const { ApplicationCommandType } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
-const captureWebsite = import('capture-website')
 
 module.exports = {
 	name: 'canvas',
