@@ -27,10 +27,10 @@ module.exports = {
 	run: async (client,interaction) => {
         interaction.deferReply();
         //YEAR-MONTH-DAYT00:00:00Z
-        s = moment().startOf('isoWeek').format('yyyy-MM-DDT00:00:00') + "Z".toString()
-        e = moment().endOf('isoWeek').format('yyyy-MM-DDT00:00:00') + "Z".toString()
+        s = moment().weekday(1).format('yyyy-MM-DDT00:00:00') + "Z".toString()
+        e = moment().weekday(7).format('yyyy-MM-DDT00:00:00') + "Z".toString()
         if(interaction.options.get('paev') !== null && interaction.options.get('paev').value !== '') {
-            n = moment().day(interaction.options.get('paev').value).format('yyyy-MM-DDT00:00:00') + "Z".toString()
+            n = moment().weekday(interaction.options.get('paev').value).format('yyyy-MM-DDT00:00:00') + "Z".toString()
         } else {
             n = moment().format('yyyy-MM-DDT00:00:00') + "Z".toString()
         }

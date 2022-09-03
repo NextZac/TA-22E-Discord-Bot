@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
+var moment = require('moment');
 const fs = require('fs');
 const client = new Client({
 	intents: [
@@ -21,7 +22,6 @@ client.slashCommands = new Collection();
 client.prefix = config.prefix
 
 module.exports = client;
-
 
 fs.readdirSync('./handlers').forEach((handler) => {
   require(`./handlers/${handler}`)(client)

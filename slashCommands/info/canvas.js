@@ -4,7 +4,7 @@ var moment = require('moment');
 const { now } = require('moment');
 const { ApplicationCommandType } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
-const { CanvasTable, CTConfig } = require("canvas-table");
+const captureWebsite = import('capture-website')
 
 module.exports = {
 	name: 'canvas',
@@ -29,26 +29,20 @@ module.exports = {
 	run: async (client,interaction) => {
         interaction.deferReply();
         //YEAR-MONTH-DAYT00:00:00Z
-        s = moment().startOf('isoWeek').format('yyyy-MM-DDT00:00:00') + "Z".toString()
-        e = moment().endOf('isoWeek').format('yyyy-MM-DDT00:00:00') + "Z".toString()
+        s = moment().weekday(1).format('yyyy-MM-DDT00:00:00') + "Z".toString()
+        e = moment().weekday(7).format('yyyy-MM-DDT00:00:00') + "Z".toString()
         if(interaction.options.get('paev') !== null && interaction.options.get('paev').value !== '') {
-            n = moment().day(interaction.options.get('paev').value).format('yyyy-MM-DDT00:00:00') + "Z".toString()
+            n = moment().weekday(interaction.options.get('paev').value).format('yyyy-MM-DDT00:00:00') + "Z".toString()
         } else {
             n = moment().format('yyyy-MM-DDT00:00:00') + "Z".toString()
         }
         const lessons = await getTimeTable(s,e)
-        
         const todaylessons = [];
         for (i in lessons) {
            if(lessons[i]['date'].toString() != n)
             {continue;}
             todaylessons.push(lessons[i])
         }
-        /*const lessonembed = new EmbedBuilder()
-            .setTitle('TA-22E tunnid - ' + moment(n).format('ddd Do MMM YYYY'))
-            .setColor(0x2c65d7)
-            */
-
         todaylessons.sort(function(a,b){
             let x = a['timeStart']
             let y = b['timeStart']
@@ -56,52 +50,38 @@ module.exports = {
             if(x>y){return 1}
             return 0;
         })
-        const canvas = Canvas.createCanvas(1080, 2400);
+
+        const canvas = Canvas.createCanvas(1080, todaylessons.length*180 + todaylessons.length*10 + 100);
         const ctx = canvas.getContext('2d');
-        const tptlivelogo = await Canvas.loadImage('https://www.tptlive.ee/sites/tpt.edu.ee/files/tpt_logo.png')
-        ctx.drawImage(tptlivelogo,0,0,456,296)
-        const data = [];
-        for(i in todaylessons) {
-            data.push(todaylessons[i]['nameEt'], todaylessons[i]['timeStart'], todaylessons[i]['timeEnd'],  todaylessons[i]['rooms'][0]['roomCode'])
-        }
-        const columns = [
-            {title: "Column 1"},
-            {title: "Column 2", options: { textAlign: "center" }},
-            {
-                title: "Column 3",
-                options: {
-                    textAlign: "right",
-                    fontSize: 14,
-                    fontWeight: "bold",
-                    fontFamily: "serif",
-                    color: "#444444",
-                    lineHeight: 1
-                }
-            },{
-                title: "Column 4",
-                options: {
-                    textAlign: "right",
-                    fontSize: 14,
-                    fontWeight: "bold",
-                    fontFamily: "serif",
-                    color: "#444444",
-                    lineHeight: 1
-                }
-            }
-        ];
-        const config = {
-            data: data,
-            columns: columns,
-        }
-        const ct = new CanvasTable(canvas,config);
-        await ct.generateTable();
-        const table = ct.renderToFile('table.png')
-        ctx.drawImage(table, 0,0)
-        const lessonembed = new AttachmentBuilder(await canvas.encode('png'), {name: 'timetable.png'})
         
-        /*if(todaylessons.length === 0) {
-            lessonembed.setDescription("Täna ei toimu tunde.")
-        }*/
-        await interaction.editReply({files: [lessonembed]})
+        
+        starty = 70
+        startx = 10
+        ctx.fillStyle = "#FFFFFF"
+        ctx.fillRect(0,0,1080,canvas.height)
+        ctx.fillStyle = "#000000"
+        ctx.font = "50px Arial";
+        ctx.textAlign = "center";
+        var text = moment().weekday(interaction.options.get('paev').value).format('dddd D MMM').toString();
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = "center";
+        ctx.fillText(text, canvas.width/2, 30)
+        ctx.textAlign = "start";
+        ctx.font = "30px Arial";
+        for(i in todaylessons) {
+            if(todaylessons[i]['rooms'][0]['roomCode'].startsWith("A")){
+                ctx.strokeStyle = '#0099FF'
+            } else {
+                ctx.strokeStyle = '#a60311'
+            }
+            ctx.strokeRect(startx, starty, 1050, 180)
+            ctx.fillText(todaylessons[i]['nameEt'], startx+10, starty + 50)
+            ctx.fillText(todaylessons[i]['timeStart'] + "-" + todaylessons[i]['timeEnd'], startx+10, starty + 100)
+            ctx.fillText(todaylessons[i]['rooms'][0]['roomCode'], startx+10, starty + 150)
+            ctx.fillText(todaylessons[i]['teachers'][0]['name'], 700, starty + 50)
+            starty = starty+190
+        }
+        const pic = new AttachmentBuilder(await canvas.encode('png'), {name: 'timetable.png'})
+        await interaction.editReply({files: [pic]})
 	}
 };
