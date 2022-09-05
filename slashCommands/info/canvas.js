@@ -26,7 +26,7 @@ module.exports = {
         }
     ],
 	run: async (client,interaction) => {
-        interaction.deferReply();
+        await interaction.deferReply();
         //YEAR-MONTH-DAYT00:00:00Z
         s = moment().weekday(1).format('yyyy-MM-DDT00:00:00') + "Z".toString()
         e = moment().weekday(7).format('yyyy-MM-DDT00:00:00') + "Z".toString()
@@ -81,6 +81,6 @@ module.exports = {
             starty = starty+190
         }
         const pic = new AttachmentBuilder(await canvas.encode('png'), {name: 'timetable.png'})
-        await interaction.editReply({files: [pic]})
+        await interaction.editReply({files: [pic], fetchReply: true})
 	}
 };
