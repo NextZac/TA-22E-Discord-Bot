@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require('discord.js');
+
 module.exports = {
 	name: 'ping',
 	description: "Check bot's ping.",
@@ -5,7 +7,11 @@ module.exports = {
 	userPerms: [],
 	botPerms: [],
 	run: async (client, message, args) => {
-		const msg = await message.reply('Pinging...')
-		await msg.edit(`Pong! **${client.ws.ping} ms**`)
+		const pingEmbed = new EmbedBuilder()
+			.setDescription(`🏓 Pong! Latency: **${Math.round(client.ws.ping)} ms**`)
+			.setTimestamp()
+			.setColor(0x2c65d7)
+			
+		await message.reply({embeds:[pingEmbed]})
 	}
 };
