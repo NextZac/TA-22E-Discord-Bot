@@ -12,14 +12,14 @@ module.exports.lessonCheck = schedule.scheduleJob("00 07 * * *", async function(
             const embed = new EmbedBuilder()
                 .setTitle(`Tund ${data[i]['nameEt'].toString()}`)
                 .setDescription(`Tund algab 5 minuti pärast!\n${data[i]['rooms'][0]['roomCode']}\n<@1016731276989972511>`)
-            client.channels.cache.get('1016342648279289907').send({embed: [embed]});
+           await client.channels.cache.get('1016342648279289907').send({embed: [embed]});
       });
-      schedule.scheduleJob(`${min} ${hour} * * *`, async function() {
-        const embed = new EmbedBuilder()
-            .setTitle(`Tund ${data[i]['nameEt'].toString()}`)
-            .setDescription(`Tund algas!\n${data[i]['rooms'][0]['roomCode']}\n<@1016731276989972511>`)
-        client.channels.cache.get('1016342648279289907').send({embed: [embed]});
-      });
+        schedule.scheduleJob(`${min} ${hour} * * *`, async function() {
+            const embed = new EmbedBuilder()
+                .setTitle(`Tund ${data[i]['nameEt'].toString()}`)
+                .setDescription(`Tund algas!\n${data[i]['rooms'][0]['roomCode']}\n<@1016731276989972511>`)
+            await client.channels.cache.get('1016342648279289907').send({embed: [embed]});
+    });
 
     }
 })
