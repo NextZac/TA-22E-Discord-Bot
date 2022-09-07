@@ -3,7 +3,7 @@ const { getTimeTable } = require('../../timetable.js')
 var moment = require('moment');
 const { now } = require('moment');
 const { ApplicationCommandType } = require('discord.js');
-const { GlobalFonts, Canvas } = require('@napi-rs/canvas');
+const { GlobalFonts, Canvas, createCanvas } = require('@napi-rs/canvas');
 
 module.exports = {
 	name: 'canvas',
@@ -50,7 +50,7 @@ module.exports = {
             return 0;
         })
 
-        const canvas = Canvas.createCanvas(1080, todaylessons.length*180 + todaylessons.length*10 + 100);
+        const canvas = createCanvas(1080, todaylessons.length*180 + todaylessons.length*10 + 100);
         const ctx = canvas.getContext('2d');
         
         
