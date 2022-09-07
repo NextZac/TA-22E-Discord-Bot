@@ -3,7 +3,7 @@ const { getTimeTable } = require('../../timetable.js')
 var moment = require('moment');
 const { now } = require('moment');
 const { ApplicationCommandType } = require('discord.js');
-const Canvas = require('@napi-rs/canvas');
+const { GlobalFonts, Canvas } = require('@napi-rs/canvas');
 
 module.exports = {
 	name: 'canvas',
@@ -59,7 +59,8 @@ module.exports = {
         ctx.fillStyle = "#FFFFFF"
         ctx.fillRect(0,0,1080,canvas.height)
         ctx.fillStyle = "#000000"
-        ctx.font = "50px Arial";
+        GlobalFonts.registerFromPath('../../OpenSans-BoldItalic.ttf', 'OpenSans')
+        ctx.font = "50px OpenSans";
         ctx.textAlign = "center";
         var text = moment().weekday(interaction.options.get('paev').value).format('dddd D MMM').toString();
         ctx.textBaseline = 'middle';
