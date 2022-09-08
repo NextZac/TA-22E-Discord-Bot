@@ -6,8 +6,8 @@ const client = require('..');
 module.exports.lessonCheck = schedule.scheduleJob("00 07 * * *", async function() {
     const today = new Date();
     const data = await (await axios.get(`https://tahvel.edu.ee/hois_back/timetableevents/timetableByGroup/14?from=${today.toISOString()}&studentGroups=6932&thru=${today.toISOString()}`)).data;
-    for(i in data) {
-        const [min, hour] = [Number(data[i]['timeStart'].toString().split(":")[1]), Number(data[i]['timeStart'].toString().split(":")[0])];
+    for(i in data['data']['timetableEvents']) {
+        const [min, hour] = [Number(data[i]['timeStart'].split(":")[1]), Number(data[i]['timeStart'].split(":")[0])];
         schedule.scheduleJob(`${min - 5} ${hour} * * *`, async function() {
             const embed = new EmbedBuilder()
                 .setTitle(`Tund ${data[i]['nameEt'].toString()}`)
