@@ -7,7 +7,6 @@ const chalk = require('chalk')
 module.exports.lessonCheck = schedule.scheduleJob("00 07 * * *", async function() {
     const today = new Date();
     const data = await (await axios.get(`https://tahvel.edu.ee/hois_back/timetableevents/timetableByGroup/14?from=${today.toISOString()}&studentGroups=6932&thru=${today.toISOString()}`)).data;
-<<<<<<< HEAD
     for(i in data['data']['timetableEvents']) {
         const [date, min, hour] = [new Date(data[i]['date']), Number(data[i]['timeStart'].split(":")[1]), Number(data[i]['timeStart'].split(":")[0])];
         const channel = client.channels.cache.get('1016342648279289907');
@@ -15,11 +14,6 @@ module.exports.lessonCheck = schedule.scheduleJob("00 07 * * *", async function(
         date.setHours(hour);
         schedule.scheduleJob(date, async function() {
             date.setMinutes(min)
-=======
-    for(i in data['timetableEvents']) {
-        const [min, hour] = [Number(data[i]['timeStart'].split(":")[1]), Number(data[i]['timeStart'].split(":")[0])];
-        schedule.scheduleJob(`${min - 5} ${hour} * * *`, async function() {
->>>>>>> abbfd02d815b6d6d1f878230a6187efb9a519eb8
             const embed = new EmbedBuilder()
                 .setTitle(`Tund ${data[i]['nameEt'].toString()}`)
                 .setDescription(`Tund algab <t:${Math.floor(date.floor(date.getTime() / 1000))}>!\nKlass:${data[i]['rooms'][0]['roomCode']}\n<@1016731276989972511>`)
