@@ -58,10 +58,10 @@ module.exports = {
                     "buildingCode": "D"
                 }
             ]}
-            todaylessons.push()
+            todaylessons.push(firstlesson);
+	    todaylessons.push(secondlesson);
         }
-
-        const lessonembed = new EmbedBuilder()
+	const lessonembed = new EmbedBuilder()
             .setTitle('TA-22E tunnid - ' + moment(n).format('ddd Do MMM YYYY'))
             .setColor(0x2c65d7)
 
