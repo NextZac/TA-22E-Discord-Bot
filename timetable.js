@@ -27,4 +27,10 @@ async function getLessonsToday() {
      return todaylessons;
 }
 
+async function getHomeWork() {
+    resp = await axios.get('https://tahvel.edu.ee/hois_back/journals/studentJournalTasks?presentTasks=true&studentId=86598');
+    tasks = JSON.parse(resp)['tasks'];
+
+}
+
 module.exports.getTimeTable = getTimeTable;

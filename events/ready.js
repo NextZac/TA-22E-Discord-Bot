@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 client.on("ready", () => {
 	const activities = [
-		{ name: `${client.users.cache.size} Kasutajat`, type: ActivityType.Watching }
+		{ name: `${client.users.cache.size} Pedekat`, type: ActivityType.Watching }
 	];
 	const status = [
 		'online',

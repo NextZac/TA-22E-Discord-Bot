@@ -40,6 +40,8 @@ module.exports = {
         for (i in lessons) {
            if(lessons[i]['date'].toString() != n)
             {continue;}
+           if(lessons[i]['singleEvent'])
+            {continue;}
             todaylessons.push(lessons[i])
         }
         todaylessons.sort(function(a,b){
@@ -49,7 +51,6 @@ module.exports = {
             if(x>y){return 1}
             return 0;
         })
-
         const canvas = createCanvas(1080, todaylessons.length*180 + todaylessons.length*10 + 100);
         const ctx = canvas.getContext('2d');
         
@@ -69,6 +70,7 @@ module.exports = {
         ctx.textAlign = "start";
         ctx.font = "30px Arial";
         for(i in todaylessons) {
+            if(todaylessons[i]['singleEvent']) {continue;}
             if(todaylessons[i]['rooms'][0]['roomCode'].startsWith("A")){
                 ctx.strokeStyle = '#0099FF'
             } else {

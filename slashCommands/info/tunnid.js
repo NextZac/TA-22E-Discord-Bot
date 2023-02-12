@@ -42,6 +42,25 @@ module.exports = {
             {continue;}
             todaylessons.push(lessons[i])
         }
+
+	if(todaylessons.length != 0 && todaylessons[0]['timeStart'] != "08:15") {
+            firstlesson = {nameEt: "Tühi tund", timeStart:'08:15', timeEnd: '09:00', rooms:[
+                {
+                    "id": 69420,
+                    "roomCode": "X420-69",
+                    "buildingCode": "D"
+                }
+            ]}
+            secondlesson = {nameEt: "Tühi tund", timeStart:'09:10', timeEnd: '09:55', rooms:[
+                {
+                    "id": 69420,
+                    "roomCode": "X420-69",
+                    "buildingCode": "D"
+                }
+            ]}
+            todaylessons.push()
+        }
+
         const lessonembed = new EmbedBuilder()
             .setTitle('TA-22E tunnid - ' + moment(n).format('ddd Do MMM YYYY'))
             .setColor(0x2c65d7)
@@ -53,8 +72,13 @@ module.exports = {
             if(x>y){return 1}
             return 0;
         })
-        for(i in todaylessons) {
-            lessonembed.addFields({name: todaylessons[i]['nameEt'], value: todaylessons[i]['timeStart'] +"-"+todaylessons[i]['timeEnd'] + " - " + todaylessons[i]['rooms'][0]['roomCode'], inline:false})
+
+
+	rooms=[];
+	for(i in todaylessons) {
+	    rooms[i] = todaylessons[i]['rooms'][0]['roomCode'].toString();
+	    if(todaylessons[i]['rooms'][1]) {rooms[i] += " - " + todaylessons[i]['rooms'][1]['roomCode'].toString();}
+            lessonembed.addFields({name: todaylessons[i]['nameEt'], value: todaylessons[i]['timeStart'] +"-"+todaylessons[i]['timeEnd'] + " - " + rooms[i], inline:false})
         }
         if(todaylessons.length === 0) {
             lessonembed.setDescription("Täna ei toimu tunde.")
